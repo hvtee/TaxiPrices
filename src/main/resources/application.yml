@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: taxi-prices
+  datasource:
+    url: "jdbc:mysql://localhost:3306/taxi_prices"
+    username: user
+    password: mysqluser
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+coordinate:
+  start-longitude: 50.189683
+  start-latitude: 53.222579
+  finish-longitude: 50.102834
+  finish-latitude: 53.199131
+
+yandex:
+  url: https://taxi-routeinfo.taxi.yandex.net/taxi_info
+  clid: ${YANDEX_CLID}
+  apiKey: ${YANDEX_APIKEY}
+
+management:
+  endpoints.web.exposure.include: 'prometheus, health'
+  metrics:
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+  prometheus:
+    metrics:
+      export:
+        enabled: true

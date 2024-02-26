@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysqlroot
+      MYSQL_DATABASE: "jdbc:mysql://localhost:3306/taxi_prices"
+      MYSQL_USER: user
+      MYSQL_PASSWORD: mysqluser
+    ports:
+      - "3306:3306"
+
+  scheduler:
+    image: taxi-service:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - YANDEX_CLID=
+      - YANDEX_APIKEY=
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/taxi_prices
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=mysqluser
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
