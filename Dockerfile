@@ -1,8 +1,8 @@
-FROM ubuntu:latest
-LABEL authors="USER"
+#FROM ubuntu:latest
+#LABEL authors="USER"
+#
+#ENTRYPOINT ["top", "-b"]
 
-ENTRYPOINT ["top", "-b"]
-
-FROM bellsoft/liberica-openjdk-alpine-musl
-COPY ./target/YandexTaxiScheduler-0.0.1-SNAPSHOT.jar .
+FROM openjdk:17-jdk-slim
+COPY ./target/TaxiPrices-0.0.1-SNAPSHOT.jar .
 CMD ["java","-jar","TaxiPrices-0.0.1-SNAPSHOT.jar"]
